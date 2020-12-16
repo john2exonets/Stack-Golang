@@ -1,19 +1,10 @@
 package stackany
 
 import (
-	"reflect"
 	"testing"
+
+	tt "github.com/john2exonets/golang-testing-util-functions"
 )
-
-//-------------------[   Helper Functions   ]---------------------------
-
-// assert() if the two values are equal, if not error out
-func assert(t *testing.T, a interface{}, b interface{}) {
-	if a == b {
-		return
-	}
-	t.Errorf("Received \"%v\" (type %v), expected \"%v\" (type %v)", a, reflect.TypeOf(a), b, reflect.TypeOf(b))
-}
 
 //------------------[   Tests   ]------------------------
 
@@ -25,13 +16,14 @@ func TestPush(t *testing.T) {
 	s.Push("B")
 	s.Push("C")
 	// ["C","B","A"]
+	tt.Contains(t, "B", s)
 	v := s.Pop()
-	assert(t, v, "C")
+	tt.Assert(t, v, "C")
 	v = s.Pop()
-	assert(t, v, "B")
+	tt.Assert(t, v, "B")
 	v = s.Pop()
-	assert(t, v, "A")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "A")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(3)
@@ -39,12 +31,12 @@ func TestPush(t *testing.T) {
 	s.Push(1)
 	// [1,2,3]
 	i := s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 2)
+	tt.Assert(t, i, 2)
 	i = s.Pop()
-	assert(t, i, 3)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 3)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestDrop(t *testing.T) {
@@ -56,8 +48,8 @@ func TestDrop(t *testing.T) {
 	// ["B","A"]
 	s.Drop()
 	v := s.Pop()
-	assert(t, v, "A")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "A")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(1)
@@ -65,8 +57,8 @@ func TestDrop(t *testing.T) {
 	// [2,1]
 	s.Drop()
 	i := s.Pop()
-	assert(t, i, 1)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 1)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestDup(t *testing.T) {
@@ -76,19 +68,19 @@ func TestDup(t *testing.T) {
 	s.Push("A")
 	s.Dup()
 	v := s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "A")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "A")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(1)
 	s.Dup()
 	i := s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 1)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 1)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestPeek(t *testing.T) {
@@ -97,31 +89,31 @@ func TestPeek(t *testing.T) {
 	// string tests
 	s.Push("A")
 	v := s.Peek()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "A")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "A")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(1)
 	i := s.Peek()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 1)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 1)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestEmpty(t *testing.T) {
 	var s Stack
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, s.IsEmpty(), true)
 	s.Push("A")
-	assert(t, s.IsEmpty(), false)
+	tt.Assert(t, s.IsEmpty(), false)
 	v := s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	s.Push(1)
-	assert(t, s.IsEmpty(), false)
+	tt.Assert(t, s.IsEmpty(), false)
 	v = s.Pop()
-	assert(t, v, 1)
+	tt.Assert(t, v, 1)
 }
 
 func TestLen(t *testing.T) {
@@ -131,7 +123,7 @@ func TestLen(t *testing.T) {
 	s.Push("B")
 	s.Push("C")
 	s.Push("D")
-	assert(t, s.Depth(), 4)
+	tt.Assert(t, s.Depth(), 4)
 }
 
 func TestSwap(t *testing.T) {
@@ -144,10 +136,10 @@ func TestSwap(t *testing.T) {
 	s.Swap()
 	// ["A","B"]
 	v := s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "B")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "B")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(1)
@@ -156,10 +148,10 @@ func TestSwap(t *testing.T) {
 	s.Swap()
 	// [1,2]
 	i := s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 2)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 2)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestRot(t *testing.T) {
@@ -173,12 +165,12 @@ func TestRot(t *testing.T) {
 	s.Rot()
 	// ["B","C","A"]
 	v := s.Pop()
-	assert(t, v, "B")
+	tt.Assert(t, v, "B")
 	v = s.Pop()
-	assert(t, v, "C")
+	tt.Assert(t, v, "C")
 	v = s.Pop()
-	assert(t, v, "A")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "A")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(3)
@@ -188,12 +180,12 @@ func TestRot(t *testing.T) {
 	s.Rot()
 	// [ 2,3,1 ]
 	i := s.Pop()
-	assert(t, i, 2)
+	tt.Assert(t, i, 2)
 	i = s.Pop()
-	assert(t, i, 3)
+	tt.Assert(t, i, 3)
 	i = s.Pop()
-	assert(t, i, 1)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 1)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestOver(t *testing.T) {
@@ -206,12 +198,12 @@ func TestOver(t *testing.T) {
 	s.Over()
 	// ["B","A","B"]
 	v := s.Pop()
-	assert(t, v, "B")
+	tt.Assert(t, v, "B")
 	v = s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "B")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "B")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(1)
@@ -220,12 +212,12 @@ func TestOver(t *testing.T) {
 	s.Over()
 	// [ 2,1,2 ]
 	i := s.Pop()
-	assert(t, i, 2)
+	tt.Assert(t, i, 2)
 	i = s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 2)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 2)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestNip(t *testing.T) {
@@ -239,10 +231,10 @@ func TestNip(t *testing.T) {
 	s.Nip()
 	// ["A","C"]
 	v := s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "C")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "C")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(3)
@@ -252,10 +244,10 @@ func TestNip(t *testing.T) {
 	s.Nip()
 	// [ 1,3 ]
 	i := s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 3)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 3)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestTuck(t *testing.T) {
@@ -268,12 +260,12 @@ func TestTuck(t *testing.T) {
 	s.Tuck()
 	// ["B","A","B"]
 	v := s.Pop()
-	assert(t, v, "B")
+	tt.Assert(t, v, "B")
 	v = s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "B")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "B")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(2)
@@ -282,12 +274,12 @@ func TestTuck(t *testing.T) {
 	s.Tuck()
 	// [ 2,1,2 ]
 	i := s.Pop()
-	assert(t, i, 2)
+	tt.Assert(t, i, 2)
 	i = s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 2)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 2)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestClear(t *testing.T) {
@@ -296,10 +288,10 @@ func TestClear(t *testing.T) {
 	s.Push("A")
 	s.Push("B")
 	// ["B","A"]
-	assert(t, s.Depth(), 2)
+	tt.Assert(t, s.Depth(), 2)
 	s.Clear()
 	// []
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, s.IsEmpty(), true)
 }
 
 func TestMove(t *testing.T) {
@@ -316,11 +308,11 @@ func TestMove(t *testing.T) {
 	s1.Move(&s2)
 	// s1: ["B"], s2: ["A","E","F"]
 	v := s1.Pop()
-	assert(t, v, "B")
+	tt.Assert(t, v, "B")
 	v = s2.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s2.Pop()
-	assert(t, v, "E")
+	tt.Assert(t, v, "E")
 
 	// int tests
 	s1.Push(2)
@@ -332,11 +324,11 @@ func TestMove(t *testing.T) {
 	s1.Move(&s2)
 	// s1: [ 2 ], s2: [ 1,5,6 ]
 	i := s1.Pop()
-	assert(t, i, 2)
+	tt.Assert(t, i, 2)
 	i = s2.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s2.Pop()
-	assert(t, i, 5)
+	tt.Assert(t, i, 5)
 }
 
 func TestPick(t *testing.T) {
@@ -350,14 +342,14 @@ func TestPick(t *testing.T) {
 	s.Pick(2)
 	// ["C","A","B","C"]
 	v := s.Pop()
-	assert(t, v, "C")
+	tt.Assert(t, v, "C")
 	v = s.Pop()
-	assert(t, v, "A")
+	tt.Assert(t, v, "A")
 	v = s.Pop()
-	assert(t, v, "B")
+	tt.Assert(t, v, "B")
 	v = s.Pop()
-	assert(t, v, "C")
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, v, "C")
+	tt.Assert(t, s.IsEmpty(), true)
 
 	// int tests
 	s.Push(3)
@@ -367,12 +359,12 @@ func TestPick(t *testing.T) {
 	s.Pick(2)
 	// [ 3,1,2,3 ]
 	i := s.Pop()
-	assert(t, i, 3)
+	tt.Assert(t, i, 3)
 	i = s.Pop()
-	assert(t, i, 1)
+	tt.Assert(t, i, 1)
 	i = s.Pop()
-	assert(t, i, 2)
+	tt.Assert(t, i, 2)
 	i = s.Pop()
-	assert(t, i, 3)
-	assert(t, s.IsEmpty(), true)
+	tt.Assert(t, i, 3)
+	tt.Assert(t, s.IsEmpty(), true)
 }
